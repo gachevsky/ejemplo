@@ -1,5 +1,7 @@
 package org.agoncal.quarkus.starting;
 
+import org.jboss.logging.Logger;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,9 +16,13 @@ public class BookResource {
 
     @Inject
     BookRepository repository;
+
+    @Inject
+    Logger logger;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> getAllBooks() {
+        logger.info("Return all books");
         return repository.getAllBooks();
     }
 
@@ -24,6 +30,7 @@ public class BookResource {
     @Path("/count")
     @Produces(MediaType.TEXT_PLAIN)
     public int countAllBooks(){
+        logger.info("Return the number of books");
         return repository.getAllBooks().size();
     }
 
@@ -31,6 +38,7 @@ public class BookResource {
     @GET
     @Path("{id}")
     public Optional<Book> getBook(@PathParam("id") int id){
+        logger.info("Return a single book with id  "+id);
         return repository.getBook(id);
     }
 }
